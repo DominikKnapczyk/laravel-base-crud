@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MusicController; 
-
+use App\Http\Controllers\PageController; 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,8 +14,6 @@ use App\Http\Controllers\MusicController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PageController::class, 'index'])->name('homepage');
 
 Route::resource('musics', MusicController::class);

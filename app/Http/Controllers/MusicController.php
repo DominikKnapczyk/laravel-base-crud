@@ -18,7 +18,7 @@ class MusicController extends Controller
     public function index()
     {
         $musics = Music::all();
-        return view('musics.index');
+        return view('musics.index', compact('musics'));
 
     }
 
@@ -49,9 +49,9 @@ class MusicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Music $music)
     {
-        //
+        return view('musics.show', compact('music'));
     }
 
     /**
