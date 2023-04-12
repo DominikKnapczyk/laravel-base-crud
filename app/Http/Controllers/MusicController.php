@@ -15,12 +15,18 @@ class MusicController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $musics = Music::all();
+        if($request->has('term')) {
+            $term = $request->get('term');
+            $musics = Music::where('title', 'LIKE', "%$term%")->paginate(5)->withQueryString(); 
+        } else {
+            $musics = Music::paginate(2);
+        }
+    
         return view('musics.index', compact('musics'));
-
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -29,7 +35,7 @@ class MusicController extends Controller
      */
     public function create()
     {
-        //
+        return view('musics.create');
     }
 
     /**
@@ -40,7 +46,17 @@ class MusicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $music = new Music;
+        $music->title = $data["title"];
+        $music->album = $data["album"];
+        $music->author = $data["author"];
+        $music->editor = $data["editor"];
+        $music->length = $data["length"];
+        $music->poster = $data["poster"];
+        $music->save();
+
+        return redirect()->route('musics.show', $music);
     }
 
     /**
